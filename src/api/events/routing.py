@@ -1,6 +1,6 @@
 # import os
 from fastapi import APIRouter, Depends
-from sqlmodel import Session
+from sqlmodel import Session, select
 from .models import EventModel, EventListSchemas, EventCreateSchemas, EventUpdateSchemas
 from api.db.session import get_session
 
@@ -8,9 +8,9 @@ router = APIRouter()
 from api.db.config import DATABASE_URL
 
 # /api/events
-@router.get("/")
-def read_events() -> EventListSchemas:
-    print(DATABASE_URL)
+@router.get("/", response_model=EventListSchemas)
+def read_events():
+    query = select()
     return {
         "results": [{"id":1},{"id":2},{"id":3}], 
         "count":3
