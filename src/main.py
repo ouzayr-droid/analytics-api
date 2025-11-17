@@ -1,10 +1,17 @@
-from dotenv import load_dotenv
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from api.db.session import init_db
 from typing import Union
 from api.events import router as event_router
 
-load_dotenv()
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # before app start up
+    init_db()
+    yield
+    # clean up
+
+app = FastAPI(lifespan=lifespan)
 
 # inclure la route importer à app
 app.include_router(event_router, prefix="/api/events")
