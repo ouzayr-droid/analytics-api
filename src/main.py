@@ -1,7 +1,9 @@
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from typing import Union
 from api.events import router as event_router
 
+load_dotenv()
 app = FastAPI()
 
 # inclure la route importer à app

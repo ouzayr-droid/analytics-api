@@ -11,7 +11,9 @@ class EventUpdateSchemas(BaseModel):
 
 class EventSchemas(BaseModel):
     id: int
+    page: Optional[str] = ""
+    description: Optional[str]=""
 
-class EventListSchemas:
+class EventListSchemas(BaseModel):
     results: List[EventSchemas]
     count: int
