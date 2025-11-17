@@ -1,6 +1,6 @@
 import os
 from fastapi import APIRouter
-from .schemas import EventSchemas, EventListSchemas, EventCreateSchemas, EventUpdateSchemas
+from .models import EventModel, EventListSchemas, EventCreateSchemas, EventUpdateSchemas
 
 router = APIRouter()
 from api.db.config import DATABASE_URL
@@ -13,6 +13,13 @@ def read_events() -> EventListSchemas:
         "results": [{"id":1},{"id":2},{"id":3}], 
         "count":3
     }
+
+# POST /api/events
+@router.post("/")
+def create_event(payload:EventCreateSchemas) -> EventModel:
+    # a bunch of items in a table
+    data = payload.model_dump() # payload -> dict -> pydantic
+    return {"id":123, **data}
 
 # GET /api/events/number
 @router.get("/{event_id}")
